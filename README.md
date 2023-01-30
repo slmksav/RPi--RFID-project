@@ -7,3 +7,4 @@
 - I2C adapter for 16x2 character LCD display w/ PCF8574 INCLUDED (https://www.spelektroniikka.fi/p24035-i2c-moduuli-adapteri-1602-2004-2x16-ja-4x20-lcd-naytoille-fi.html)
 - Tower SG90 PWM enabled servo controller
 - Keypad with 4 rows and 3 columns
+- USB stick (of any size, .json files are <=1KB)
