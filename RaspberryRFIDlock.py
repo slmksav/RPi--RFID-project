@@ -6,6 +6,7 @@ import servoKit
 import signal
 import time
 import Adafruit_CharLCD
+import Adafruit_GPIO.PCF8574 as PCF
 import keypad
 import json
 from time import sleep
@@ -27,11 +28,18 @@ def end_read(signal, frame):
 
 # Komponentit 
 led_pin = 21
+GPIO = PCF.PCF8574(address=0x20)
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(led_pin, GPIO.OUT)
+lcd_rs        = 4
+lcd_en        = 6
+d4,d5,d6,d7   = 0,1,2,3
+cols,lines    = 16,2
+lcd = Adafruit_CharLCD(lcd_rs, lcd_en, d4, d5, d6, d7, cols, lines, gpio=GPIO)
+
 ser = serial.Serial("/dev/usbtikku", 9600)
 reader = SimpleMFRC522.MFRC522() #SPI-väylä
-lcd = Adafruit_CharLCD(address=0x27, busnum=1) #I2C-väylä, tarkistus --sudo i2cdetect -y 1
+
 kit = ServoKit(channels=16, address=0x40, busnum=1) #PWM
 kit.servo[0].set_pwm(12)
 kit.servo[0].set_servo(180)
