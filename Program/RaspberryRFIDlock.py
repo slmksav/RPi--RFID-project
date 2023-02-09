@@ -21,7 +21,7 @@ signal.signal(signal.SIGINT, end_read)
 def end_read(signal, frame):
     global continue_reading
     print("Ending read.")
-	lcd.clear()
+    lcd.clear()
     lcd.print("NOT READING")
     continue_reading = False
     GPIO.cleanup()
@@ -74,7 +74,7 @@ print("To end the reading process, press Ctrl+C on keyboard.")
 
 while continue_reading:
     lcd.show_cursor(False)
-	lcd.clear()
+    lcd.clear()
     lcd.print("SCANNING CARDS...")
     (status,TagType) = reader.MFRC522_Request(reader.PICC_REQIDL)
 
@@ -93,21 +93,21 @@ while continue_reading:
         # Jos saadaan tagi autentikoitua, katsotaan onko sen merkistä samat kuin admin-avain
         # ja tallennetaan avausaika talteen sekä käännetään servo auki
         if uid == key:
-			lcd.clear()
-			lcd.print("OPEN")
+            lcd.clear()
+            lcd.print("OPEN")
             reader.MFRC522_Read(8) # Lukee 8. merkkiin asti (UID tagissa 8-merkkiä)
-			print("Succesfully opened the safe!")
-			time.sleep(2)
+            print("Succesfully opened the safe!")
+            time.sleep(2)
             # avaus
-			kit.servo[0].set_servo(0)
-			savedtime = timemark
+            kit.servo[0].set_servo(0)
+            savedtime = timemark
             lukitus = False
             # lähetetään tää sinne muistitikulle lokeja varten
-			data = {"time_opened": savedtime}
+            # data = {"time_opened": savedtime}
             json_data = json.dumps(data)
             ser.write(json_data.encode())
             ser.close()
-			print("At: " + savedtime)
+            print("At: " + savedtime)
             # luetun tagin talletus taulukkoon
             hex_code = ''.join(["%02X" % x for x in uid])
             save_tag(hex_code)
@@ -118,8 +118,8 @@ while continue_reading:
             
         # ja sitten jos ei, ei tehdä mitään
         else:
-			lcd.clear()
-			lcd.print("UNAUTH.")
+            lcd.clear()
+            lcd.print("UNAUTH.")
             print("It did not recognize your tag")
 
 while lukitus == False:
@@ -159,4 +159,3 @@ def save_logs_to_usb():
         ser.write(json_data.encode())
     ser.close()
     print("Tags saved to USB device!!")
-G
